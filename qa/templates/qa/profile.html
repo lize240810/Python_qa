@@ -1,0 +1,14 @@
+{% extends 'qa/base.html' %}
+{% load django_markdown %}
+
+{% block content %}
+<h2 class="pull-right">分数值: {{ user.points }}</h1>
+<ul>
+   <li><b></b></li>
+   <li><b>网址 :</b> {{ user.website | default:"暂无"  }} </li>
+   <li><b>邮箱 :</b> {{ user.user.email | default:"暂无" }} </li>
+   <li><b>加入日期 :</b> {{ user.user.date_joined }} </li>
+   <li><b>注册日期 :</b> {{ user.user.last_login }} </li>
+   <li><b>是否激活 :</b> {% if user.user.is_active %}已激活 {% else %} 未激活 {% endif %}</li>
+<ul>
+{% endblock content %}

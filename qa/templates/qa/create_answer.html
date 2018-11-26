@@ -1,0 +1,35 @@
+{% extends 'qa/base.html' %}
+{% load django_markdown %}
+{% block style %}
+    <style type="text/css">
+              .container{
+                    width: 80%;
+              }
+    </style>
+{% endblock %}
+
+{% block content %}     
+    {% if message %}
+        <strong>请输入一个有效的回答!</strong>
+    {% endif %}
+    <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">回复答案</div>
+            <div class="panel-body">
+                <form method="post" action="{% block action_url %}{% url 'qa_create_answer' view.kwargs.question_id %}{% endblock action_url %}">
+                        {% load widget_tweaks %}
+                              {% csrf_token %}
+                        {% render_field form.answer_text class+="form-control" placeholder="请输入要评论的话" %}
+                        <br/>
+                        <input class="btn pull-left btn-primary display" type="button" value="返回" />
+                        <input class="btn pull-right btn-primary display" type="submit" value="提交答案" />
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+      {% markdown_editor "#id_answer_text" %}
+      {% markdown_media %}
+{% endblock %}
