@@ -5,8 +5,8 @@
 <div class="container">
 
   {% if registered %}
-  <strong>Thank you for registering!</strong>
-  <a href="{% url 'login' %}">You can Login Now!</a><br />
+  <strong>感谢您的注册!</strong>
+  <a href="{% url 'login' %}">您现在可以登录了!</a><br />
   {% else %}
   <h2>欢迎注册!</h2><br /><br />
 
@@ -21,7 +21,7 @@
 
   {% buttons %}
         <button type="submit" class="btn btn-primary">
-            {% bootstrap_icon "star" %} Submit
+            {% bootstrap_icon "star" %} 提交
         </button>
     {% endbuttons %}
 </form>
