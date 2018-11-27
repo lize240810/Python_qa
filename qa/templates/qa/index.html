@@ -1,5 +1,8 @@
 {% extends "qa/base.html" %}
 {% load staticfiles %}
+{% block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">  
+{% endblock %}
 
 {% block content %}
 
@@ -20,10 +23,10 @@
             <p>
               {% if question.reward %}<span class="glyphicon glyphicon-fire" aria-hidden="true"></span>{% endif %}
               <h3><a href="{% url 'qa_detail' question.id %}">{{ question.title }}</a></h3>
-              <br/>
-              {% for tag in question.tags.all %}
-                  <a href="{% url 'qa_tag' tag.slug %}"><tag>{{ tag.name }}</tag></a>
-              {% endfor %}
+              <br/>&nbsp;
+                {% for tag in question.tags.all %}
+                    <a href="{% url 'qa_tag' tag.slug %}"><tag>{{ tag.name }}</tag></a>
+                {% endfor %}
               <small> {{ question.pub_date }}</small>
             </p>
           </div>
@@ -47,7 +50,7 @@
           {% endif %}
         </div>
       {% else %}
-        <div class="alert alert-warning" role="alert">没有问题!</div>
+        <div role="alert">没有问题!</div>
       {% endif %}
     </div>
 
@@ -69,7 +72,7 @@
           <hr>
         {% endfor %}
       {% else %}
-        <div class="alert alert-warning" role="alert">没有问题!</div>
+        <div role="alert">没有问题!</div>
       {% endif %}
         <div class="pagination">
           <span class="step-links">
@@ -106,7 +109,7 @@
           <hr>
         {% endfor %}
       {% else %}
-        <div class="alert alert-warning" role="alert">没有问题!</div>
+        <div role="alert">没有问题!</div>
       {% endif %}
     </div>
   </div>

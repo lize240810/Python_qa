@@ -1,0 +1,15 @@
+.row, tag{
+  background-color: #99a4af30/*rgba(75, 134, 136, 0.3)*/;
+  color: block;
+}
+.col-md-4{
+    background-color: #ff000000;
+}
+.panel-default{
+    border-color: 0px ; 
+    background-color: #7f7d7d14;
+}
+body > div:nth-child(3) > div.col-md-4 > div.span3.well{
+    background-color: #eef3f296;
+}
+    
