@@ -3,6 +3,8 @@ from django.conf.urls import include, url
 from . import views
 
 urlpatterns = [
+    url(r'^question/$', views.show_img),
+
     url(r'^$', views.QuestionIndexView.as_view(), name='qa_index'),
 
     url(r'^question/(?P<pk>\d+)/$',
@@ -64,3 +66,4 @@ urlpatterns = [
     url(r'hitcount/', include('hitcount.urls', namespace='hitcount')),
 
 ]
+
