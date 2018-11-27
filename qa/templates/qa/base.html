@@ -12,15 +12,7 @@
         <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css">
         
         <link href="{% static 'css/qa.css' %}" rel="stylesheet"/>
-        <link href="{% static 'css/img.css' %}" rel="stylesheet"/>
 
-        <script type="text/javascript" src="static/js/jquery.min.js"></script>
-        <script type="text/javascript">
-        function timedMsg()
-        {
-            var t=setTimeout(function(){$("#div_img").hide()},2000);         
-        }
-        </script>
 
         <style type="text/css">
             .page-header>a{
@@ -40,7 +32,6 @@
         {% endblock %}
     </head>
   <body>
-    <img id="div_img" name="div_img" src="static/qa/1.jpg" onload="timedMsg()">
 
     <div class="topbar">
     </div>
