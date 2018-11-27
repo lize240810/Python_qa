@@ -225,7 +225,7 @@ class CreateQuestionView(LoginRequired, CreateView):
     View to handle the creation of a new question
     """
     template_name = 'qa/create_question.html'
-    message = _('Thank you! your question has been created.')
+    message = _('谢谢你！你的问题创建了。')
     form_class = QuestionForm
 
     def form_valid(self, form):
@@ -302,7 +302,7 @@ class CreateAnswerCommentView(LoginRequired, CreateView):
     template_name = 'qa/create_comment.html'
     model = AnswerComment
     fields = ['comment_text']
-    message = _('Thank you! your comment has been posted.')
+    message = _('谢谢你！你的评论已经发表了。')
 
     def form_valid(self, form):
         """
@@ -329,7 +329,7 @@ class CreateQuestionCommentView(LoginRequired, CreateView):
     template_name = 'qa/create_comment.html'
     model = QuestionComment
     fields = ['comment_text']
-    message = _('Thank you! your comment has been posted.')
+    message = _('谢谢你！你的评论已经发表了。')
 
     def form_valid(self, form):
         """
@@ -434,7 +434,7 @@ class ParentVoteView(View):
             target_key = 'answer'
 
         else:
-            raise ValidationError('Not a valid model for votes')
+            raise ValidationError('这不是一个有效的投票模型')
 
         object_kwargs[target_key] = vote_target
         return object_kwargs
@@ -443,7 +443,7 @@ class ParentVoteView(View):
         vote_target = get_object_or_404(self.model, pk=object_id)
         if vote_target.user == request.user:
             raise ValidationError(
-                'Sorry, voting for your own answer is not possible.')
+                '对不起，投票给你自己的答案是不可能的。')
 
         else:
             upvote = request.POST.get('upvote', None) is not None
