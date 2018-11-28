@@ -1,0 +1,276 @@
+{% extends 'jQueryMoban/base.html' %}
+{% load staticfiles %}
+{% block title %}
+    主页
+{% endblock %}
+{% block style %}{% endblock %}
+
+{% block body %}
+        <!-- ========================== -->
+        <!-- ABOUT - 产品特点 -->
+        <!-- ========================== -->
+    <section class="features-section about-features-section">
+        <div class="container">
+            <div class="row wow fadeInUp">
+                <div class="col-md-4 col-sm-4">
+                    <article>
+                        <div class="feature-item" {% if active_tab == 'latest' %}class="active"{% endif %} href="#latest"data-toggle="tab" >
+                            <div class="wrap-feature-icon">
+                                <div class="feature-icon">
+                                    <span class="icon icon-Carioca"></span>
+                                </div>
+                            </div>
+                            <div  class="title">新 &amp; 问</div>
+                            <span class="badge">{{ latest | length  }}</span>
+                            <!-- <li ><span class="glyphicon glyphicon-th-list"></span> 新的</a></li> -->
+                        </div>
+                    </article>
+                </div> 
+                <div class="col-md-4 col-sm-4">
+                    <article>
+                        <div class="feature-item" {% if active_tab == 'unans' %}class="active"{% endif %} href="#unans" data-toggle="tab">
+                            <div class="wrap-feature-icon">
+                                <div class="feature-icon">
+                                    <span class="icon icon-Heart"></span>
+                                </div>
+                            </div>
+                            <div class="title">关 注</div>
+                            <span class="badge">{{ totalnoans }}</span>
+                        </div>
+                    </article>
+                </div> 
+                <div class="col-md-4 col-sm-4">
+                    <article>
+                        <div class="feature-item" {% if active_tab == 'reward' %}class="active"{% endif %} href="#reward" data-toggle="tab">
+                            <div class="wrap-feature-icon">
+                                <div class="feature-icon">
+                                    <span class="icon icon-Blog"></span>
+                                </div>
+                            </div>
+                            <div class="title">答复</div>
+                            <span class="badge">{{ reward | length }}</span>
+                        </div>
+                    </article>
+                </div> 
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================== -->
+    <!-- ABOUT - 笔记本电脑 -->
+    <!-- ========================== -->
+    <section class="laptops-section">
+        {% include './home.html'%}
+    </section>
+
+    <!-- ========================== -->
+    <!-- ABOUT - STEPS  -->
+    <!-- ========================== -->
+    <!--<section class="steps-section with-icon ">
+        <div class="section-icon"><span class="icon icon-Umbrella"></span></div>
+        <div class="container">
+            <div class="section-heading">
+                <div class="section-title">simple steps . quick results</div>
+                <div class="section-subtitle">Lorem ipsum dolor sit amet consectetur elit</div>
+                <div class="design-arrow"></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row steps-list">
+                <div class="col-md-4 col-sm-4 col-xs-4 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="step-item">
+                        <div class="item-icon" data-count="1">
+                            <span class="icon icon-Pencil"></span>
+                        </div>
+                        <div class="item-text">
+                            <h5>We Plan &amp; <br />
+                                Sketch .
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-4 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="step-item invert">
+                        <div class="item-icon" data-count="2">
+                            <span class="icon icon-Glasses"></span>
+                        </div>
+                        <div class="item-text">
+                            <h5>We Design &amp; <br />
+                                Develop .
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-4 wow fadeInUp" data-wow-delay="0.7s">
+                    <div class="step-item">
+                        <div class="item-icon" data-count="3">
+                            <span class="icon icon-Plaine"></span>
+                        </div>
+                        <div class="item-text">
+                            <h5>We Test &amp; <br />
+                                Deliver .
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container results-container">
+            <div class="row">
+                <div class="col-md-6  col-sm-6">
+                    <ul class="skills">
+                        <li data-percent="75" class="skills-animated ">
+                            <span>web design</span>
+                            <div class="progress" >
+                                <div class="progress-percent">
+                                    <span class="progress-bar-tooltip">75</span>%
+                                </div>
+                            </div>
+                        </li>
+                        <li data-percent="90" class="skills-animated orange">
+                            <span>programming</span>
+                            <div class="progress" >
+                                <div class="progress-percent">
+                                    <span class="progress-bar-tooltip">90</span>%
+                                </div>
+                            </div>
+                        </li>
+                        <li data-percent="55" class="skills-animated">
+                            <span>marketing</span>
+                            <div class="progress" >
+                                <div class="progress-percent">
+                                    <span class="progress-bar-tooltip">55</span>%
+                                </div>
+                            </div>
+                        </li>
+                        <li data-percent="85" class="skills-animated orange">
+                            <span>photography</span> 
+                            <div class="progress">
+                                <div class="progress-percent">
+                                    <span class="progress-bar-tooltip">85</span>%
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="results-description" >
+                        <h5 class="italic-title">Every customer is importany to us!</h5>
+                        <h4>Our Experienced guys at Oscend always giving their best
+                            to make the clients happy!!
+                        </h4>
+                        <p>Amco laboris nisi ut aliquip xea commodo consequt. Duis aute irure dolor reprehenderit voluptate velit esse cillum dolore
+                            fugiat lore ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna
+                            aliqua ut enim ad mid veniam quis nostrud exercitation ullamco laboris nisid. Lorem ipsum dolor sit amet consectetur adip
+                            isicing elit sed eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>-->
+
+    <!-- ========================== -->
+    <!-- ABOUT - 最新消息，最近新闻 -->
+    <!-- ========================== -->
+    <section class="latest-news-section clearfix">
+        <div class="container">
+            <div class="section-heading">
+                <div class="section-title">about oscend</div>
+                <div class="section-subtitle">Lorem ipsum dolor sit amet consectetur elit</div>
+                <div class="design-arrow"></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 wow fadeInUp">
+                    <div class="news-item">
+                        <div class="image">
+                            <a href="#">
+                                <img src="{% static 'jQueryMoban/img/news/image4' %}.jpg" alt="" />
+                                <div class="image-content">
+                                    <span class="read-more">read more</span>  
+                                </div>
+                            </a> 
+                        </div> 
+                        <div class="user-avatar clearfix">
+                        </div>
+                        <div class="news-body">
+                            <h5>Who we are</h5>
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elitsed
+                                eiusmod tempor enim minim veniam quis notru exercit ation
+                                Lorem ipsum dolor sit amet.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 wow fadeInUp">
+                    <div class="news-item">
+                        <div class="image">
+                            <a href="#">
+                                <img src="{% static 'jQueryMoban/img/news/image3' %}.jpg" alt="" />
+                                <div class="image-content">
+                                    <span class="read-more">read more</span>  
+                                </div>
+                            </a> 
+                        </div> 
+                        <div class="user-avatar clearfix">
+                        </div>
+                        <div class="news-body">
+                            <h5>our philosophy</h5>
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elitsed
+                                eiusmod tempor enim minim veniam quis notru exercit ation
+                                Lorem ipsum dolor sit amet.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 wow fadeInUp">
+                    <div class="news-item">
+                        <div class="image">
+                            <a href="#">
+                                <img src="{% static 'jQueryMoban/img/news/image2' %}.jpg" alt="" />
+                                <div class="image-content">
+                                    <span class="read-more">read more</span>  
+                                </div>
+                            </a> 
+                        </div> 
+                        <div class="user-avatar clearfix">
+                        </div>
+                        <div class="news-body">
+                            <h5>strategy & mission</h5>
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elitsed
+                                eiusmod tempor enim minim veniam quis notru exercit ation
+                                Lorem ipsum dolor sit amet.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ========================== -->
+    <!-- ABOUT - 提出创意 -->
+    <!-- ========================== -->
+    <section class="create-ideas-section with-icon with-top-effect clearfix">
+        <div class="section-icon"><span class="icon icon-Umbrella"></span></div>
+        <div class="container">
+            <div class="section-heading">
+                <div class="section-title">we create beautiful ideas</div>
+                <div class="section-subtitle">Lorem ipsum dolor sit amet consectetur elit</div>
+                <div class="design-arrow"></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="idea-image">
+                <img src="{% static 'jQueryMoban/img/table-mac' %}.png" alt="" />
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block script %}{% endblock %}

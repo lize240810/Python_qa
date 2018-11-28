@@ -44,8 +44,6 @@ INSTALLED_APPS = (
     'qa.apps.QAConfig',
     'core.apps.CoreConfig',
     'hitcount',
-    # 'rest_framework',
-    # ...
     'debug_toolbar',
     'mdeditor',
 )
@@ -157,4 +155,3 @@ QA_SETTINGS = {
 MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
 MEDIA_URL = '/media/'
-

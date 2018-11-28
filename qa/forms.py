@@ -1,11 +1,12 @@
 from django import forms
 from django.conf import settings
 from qa.models import Question
-
+from django_markdown.models import MarkdownField
 from django.forms import widgets as wid  #因为重名，所以起个别名
     
 
 class QuestionForm(forms.ModelForm):
+    description = MarkdownField() 
     class Meta:
         model = Question
         fields = ['title', 'description', 'tags']

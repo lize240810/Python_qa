@@ -7,7 +7,6 @@ from uuslug import slugify
 from django_markdown.models import MarkdownField
 from hitcount.models import HitCountMixin
 from taggit.managers import TaggableManager
-from mdeditor.fields import MDTextField
 
 
 class UserQAProfile(models.Model):
@@ -32,7 +31,7 @@ class Question(models.Model, HitCountMixin):
     """Model class to contain every question in the forum"""
     slug = models.SlugField(max_length=200)
     title = models.CharField(max_length=200, blank=False, verbose_name='标题')
-    description = MarkdownField( verbose_name='描述')
+    description = MarkdownField()
     pub_date = models.DateTimeField('出版日期', auto_now_add=True)
     tags = TaggableManager(verbose_name='标签',help_text='多个标签之间使用逗号分割')
     reward = models.IntegerField(default=0, verbose_name='奖金')
@@ -164,4 +163,4 @@ class QuestionComment(BaseComment):
 
 class ExampleModel(models.Model):
     name = models.CharField(max_length=10)
-    content = MDTextField()
+    content = MarkdownField()

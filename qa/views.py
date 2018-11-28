@@ -112,7 +112,8 @@ class QuestionIndexView(ListView):
     model = Question
     paginate_by = 10
     context_object_name = 'questions'
-    template_name = 'qa/index.html'
+    # template_name = 'qa/index.html'
+    template_name = 'jQueryMoban/index.html'
     ordering = '-pub_date'
 
     def get_context_data(self, *args, **kwargs):
@@ -224,7 +225,8 @@ class CreateQuestionView(LoginRequired, CreateView):
     """
     View to handle the creation of a new question
     """
-    template_name = 'qa/create_question.html'
+    # template_name = 'qa/create_question.html'
+    template_name = 'jQueryMoban/contact.html'
     message = _('谢谢你！你的问题创建了。')
     form_class = QuestionForm
 

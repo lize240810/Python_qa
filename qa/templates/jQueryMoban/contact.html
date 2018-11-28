@@ -1,0 +1,79 @@
+﻿{% extends 'jQueryMoban/base.html' %}
+
+{% load django_markdown %}
+{% load staticfiles %}
+
+
+{% block title %}
+    提问
+{% endblock %}
+{% block style %}
+<script src="https://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+<style type="text/css">
+    form{
+        font-size: 15px;
+    }
+    .btn-default{
+        background-color: #ff6400;
+        color: white;
+    }
+</style>
+{{ form.media }}
+{% endblock %}
+
+{% block body %}
+
+    <section class="countact-us-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="contact-form">
+                        <div class="form-heading">
+                            <h3>提出好问题</h3>
+                            <em>优质问题将会得到更多人回答</em>
+                        </div>
+                        <div class="form-description">
+                            <p>1.作为一个有思想的人，应当以审慎的思考主动选择自己的观点，而非被动接受他人的灌输；<br/>
+                                2.观点不等于事实，所有观点的获得都是基于一定的假设，要努力找出背后潜藏的假设；<br/>
+                                3.问对了问题，才能抽丝剥茧地找出假设及其推理逻辑。<br/>
+                            </p>
+                        </div>
+                        <form method="post" action="{% block action_url %}{% url 'qa_create_question' %}{% endblock action_url %}" name="contact-form" id="contact-form">
+                            {% load widget_tweaks %}
+                            {% csrf_token%}
+                            <div class="row"> 
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {% render_field form.title class+="form-control" placeholder="问题简称" %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {% render_field form.tags class+="form-control" placeholder="请输标签" title='多个标签之间使用逗号分割' %}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                         <!-- class+="form-control" -->
+                                        {% render_field form.description class+="form-control" placeholder="请输入内容" %}
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-default" value="提问">提交</button>
+                                    </div>
+                                </div>
+                            </div> 
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock body %}
+
+{% block script %}
+      {% markdown_editor "#id_description" %}
+      {% markdown_media %}
+{% endblock script %}
+

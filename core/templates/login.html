@@ -1,124 +1,74 @@
-<script src="https://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
-{% load static %}
-{% load bootstrap3 %}
-
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-
-<style>
-  body {
-    padding-top: 120px;
-    padding-bottom: 40px;
-    background-color: #eee;
-
-  }
-  .btn
-  {
-   outline:0;
-   border:none;
-   border-top:none;
-   border-bottom:none;
-   border-left:none;
-   border-right:none;
-   box-shadow:inset 2px -3px rgba(0,0,0,0.15);
-  }
-  .btn:focus
-  {
-   outline:0;
-   -webkit-outline:0;
-   -moz-outline:0;
-  }
-  .fullscreen_bg {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-size: cover;
-    background-position: 50% 50%;
-    background-image: url('{% static "bg2.jpg" %}');
-    background-repeat:repeat;
-  }
-  .form-signin {
-    max-width: 280px;
-    padding: 15px;
-    margin: 0 auto;
-      margin-top:50px;
-  }
-  .form-signin .form-signin-heading, .form-signin {
-    margin-bottom: 10px;
-  }
-  .form-signin .form-control {
-    position: relative;
-    font-size: 16px;
-    height: auto;
-    padding: 10px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-  .form-signin .form-control:focus {
-    z-index: 2;
-  }
-  .form-signin input[type="text"] {
-    margin-bottom: -1px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-top-style: solid;
-    border-right-style: solid;
-    border-bottom-style: none;
-    border-left-style: solid;
-    border-color: #000;
-  }
-  .form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-top-style: none;
-    border-right-style: solid;
-    border-bottom-style: solid;
-    border-left-style: solid;
-    border-color: rgb(0,0,0);
-    border-top:1px solid rgba(0,0,0,0.08);
-  }
-  .form-signin-heading {
-    color: #fff;
-    text-align: center;
-    text-shadow: 0 2px 2px rgba(0,0,0,0.5);
-  }
-  .container{
-    margin-top: 40px;
-    align-content: center;
-    height: 450px;
-    width: 350px;
-    background-color: rgba(#fff0);
-    /*border: 1px solid blue;*/
-  }
-  .form-control{
-    margin-top: 5px;
-    border: 0px;
-  }
-  .btn btn-lg btn-success{
-        background-color: yellowgreen;
-  }
-</style>
-
-<div id="fullscreen_bg" class="fullscreen_bg"/>
-
-
-<div class="container">
-	<form class="form-signin" id="login_form" method="post" action="/login/">
-    <center><a href="/"><h1 class="form-signin-heading text-muted"><img src="/static/zebd.gif"></h1></a></center><br/>
-		<!-- <h1 class="form-signin-heading text-muted">登录</h1> -->
-		<input type="text" class="form-control" placeholder="用户名" type="text" name="username" required="" autofocus="">
-
-		<input type="password" class="form-control" placeholder="密码" type="password" name="password" required="">
-        {% csrf_token %}
-		<button class="btn btn-lg btn-primary btn-block" type="submit">
-			登录
-		</button>
-	</form>
-
-	<!-- <center><h2 class="form-signin-heading text-muted">或</h2> -->
-    <center><a class="btn btn-lg btn-success" href="/register" type="submit">新用户？注册</a></center>
-</div>
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>登录</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/login.css">
+	<!--[if IE]>
+		<script src="http://libs.baidu.com/html5shiv/3.7/html5shiv.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<div class="jq22-container" style="padding-top:100px">
+		<div class="login-wrap">
+			<div class="login-html">
+				<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登 录</label>
+				<input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">注 册</label>
+				<div class="login-form">
+					<form class="sign-in-htm" id="login_form" method="post" action="/login/">
+						{% csrf_token %}
+						<div class="group">
+							<label for="user" class="label">用户名</label>
+							<input id="user" placeholder="用户名" type="text" class="input"  name="username">
+						</div>
+						<div class="group">
+							<label for="pass" class="label">密码</label>
+							<input id="pass" type="password" class="input" placeholder="密码" type="password" name="password" data-type="password">
+						</div>
+						<div class="group">
+							<input id="check" type="checkbox" class="check" checked>
+							<label for="check"><span class="icon"></span> 记住登录</label>
+						</div>
+						<div class="group">
+							<input type="submit" class="button" value="登 录">
+						</div>
+						<div class="hr"></div>
+						<div class="foot-lnk">
+							<a href="#forgot">忘记密码?</a>
+						</div>
+					</form>
+					<form class="sign-up-htm" id="user_form" method="post" action="/register/">
+						{% csrf_token %}
+						<div class="group">
+							<label for="user" class="label">用户名</label>
+							<input id="user" name="username" type="text" class="input">
+						</div>
+						<div class="group">
+							<label for="pass" class="label">密码</label>
+							<input id="pass" name="password" type="password" class="input" data-type="password">
+						</div>
+						<div class="group">
+							<label for="pass" class="label">确认密码</label>
+							<input id="pass" name="confirm_password" type="password" class="input" data-type="password">
+						</div>
+						<div class="group">
+							<label for="pass" class="label">电子邮箱</label>
+							<input id="pass" name="email" type="text" class="input">
+						</div>
+						<div class="group">
+							<input type="submit" class="button" value="注册">
+						</div>
+						<div class="hr"></div>
+						<div class="foot-lnk">
+							<label for="tab-1">已有账号?</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>
