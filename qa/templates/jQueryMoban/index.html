@@ -176,81 +176,12 @@
     <section class="latest-news-section clearfix">
         <div class="container">
             <div class="section-heading">
-                <div class="section-title">about oscend</div>
-                <div class="section-subtitle">Lorem ipsum dolor sit amet consectetur elit</div>
+                <div class="section-title">标签</div>
+                <div class="section-subtitle">笔记标签，认真分类，查找简单</div>
                 <div class="design-arrow"></div>
             </div>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 col-sm-4 wow fadeInUp">
-                    <div class="news-item">
-                        <div class="image">
-                            <a href="#">
-                                <img src="{% static 'jQueryMoban/img/news/image4' %}.jpg" alt="" />
-                                <div class="image-content">
-                                    <span class="read-more">read more</span>  
-                                </div>
-                            </a> 
-                        </div> 
-                        <div class="user-avatar clearfix">
-                        </div>
-                        <div class="news-body">
-                            <h5>Who we are</h5>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elitsed
-                                eiusmod tempor enim minim veniam quis notru exercit ation
-                                Lorem ipsum dolor sit amet.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-4 wow fadeInUp">
-                    <div class="news-item">
-                        <div class="image">
-                            <a href="#">
-                                <img src="{% static 'jQueryMoban/img/news/image3' %}.jpg" alt="" />
-                                <div class="image-content">
-                                    <span class="read-more">read more</span>  
-                                </div>
-                            </a> 
-                        </div> 
-                        <div class="user-avatar clearfix">
-                        </div>
-                        <div class="news-body">
-                            <h5>our philosophy</h5>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elitsed
-                                eiusmod tempor enim minim veniam quis notru exercit ation
-                                Lorem ipsum dolor sit amet.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 col-sm-4 wow fadeInUp">
-                    <div class="news-item">
-                        <div class="image">
-                            <a href="#">
-                                <img src="{% static 'jQueryMoban/img/news/image2' %}.jpg" alt="" />
-                                <div class="image-content">
-                                    <span class="read-more">read more</span>  
-                                </div>
-                            </a> 
-                        </div> 
-                        <div class="user-avatar clearfix">
-                        </div>
-                        <div class="news-body">
-                            <h5>strategy & mission</h5>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elitsed
-                                eiusmod tempor enim minim veniam quis notru exercit ation
-                                Lorem ipsum dolor sit amet.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% include './tags.html'%}
     </section>
 
 
