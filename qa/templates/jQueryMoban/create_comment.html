@@ -1,0 +1,56 @@
+{% extends 'jQueryMoban/base.html' %}
+
+{% load django_markdown %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block style %}
+    <script src="https://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'jQueryMoban/css/profile.css' %}" type="text/css" media="all" />
+    <style type="text/css">
+        .form-control{
+            font-size: 15px;
+        }
+        #markItUpId_comment_text {
+              width: 100%;
+        }
+        #id_comment_text {
+              width: 100%;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    {% if message %}
+        <strong>请输入一个有效的回答!</strong>
+    {% endif %}
+    <!-- banner -->
+    <div class="banner" id="home">
+        <!-- menu -->
+        <div class="container">
+            <div class="w3l-banner-grids2">
+                <div class="col-md-8 col-md-offset-2">
+                    <form method="post" action="">
+                        {{ form.media }}
+                        {% csrf_token %}
+                        <div id="editor-container">
+                            {% render_field form.comment_text class+="form-control"   placeholder="请输入要评论的内容" %}
+                        </div>
+                        <br/>
+                        <input class="btn pull-left btn-primary display" type="button" value="返回" />
+                        <input class="btn pull-right btn-primary display" type="submit" value="提交评论" />
+                    </form>
+                    
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+{% block script %}
+<script src="https://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+    {% markdown_editor "#id_answer_text" %}
+    {% markdown_media %}
+{% endblock %}
+

@@ -248,7 +248,8 @@ class UpdateQuestionView(LoginRequired, AuthorRequiredMixin, UpdateView):
     """
     Updates the question
     """
-    template_name = 'qa/update_question.html'
+    # template_name = 'qa/update_question.html'
+    template_name = 'jQueryMoban/update_question.html'
     model = Question
     pk_url_kwarg = 'question_id'
     fields = ['title', 'description', 'tags']
@@ -262,7 +263,9 @@ class CreateAnswerView(LoginRequired, CreateView):
     """
     View to create new answers for a given question
     """
-    template_name = 'qa/create_answer.html'
+    # template_name = 'qa/create_answer.html'
+    template_name = 'jQueryMoban/create_answer.html'
+    
     model = Answer
     fields = ['answer_text']
     message = _('谢谢你！你的答案已经贴出来了。')
@@ -287,7 +290,8 @@ class UpdateAnswerView(LoginRequired, AuthorRequiredMixin, UpdateView):
     """
     Updates the question answer
     """
-    template_name = 'qa/update_answer.html'
+    # template_name = 'qa/update_answer.html'
+    template_name = 'jQueryMoban/update_answer.html'
     model = Answer
     pk_url_kwarg = 'answer_id'
     fields = ['answer_text']
@@ -301,7 +305,8 @@ class CreateAnswerCommentView(LoginRequired, CreateView):
     """
     View to create new comments for a given answer
     """
-    template_name = 'qa/create_comment.html'
+    # template_name = 'qa/create_comment.html'
+    template_name = 'jQueryMoban/create_comment.html'
     model = AnswerComment
     fields = ['comment_text']
     message = _('谢谢你！你的评论已经发表了。')
@@ -354,7 +359,8 @@ class UpdateQuestionCommentView(LoginRequired,
     """
     Updates the comment question
     """
-    template_name = 'qa/create_comment.html'
+    # template_name = 'qa/create_comment.html'
+    template_name = 'jQueryMoban/create_comment.html'
     model = QuestionComment
     pk_url_kwarg = 'comment_id'
     fields = ['comment_text']
@@ -382,7 +388,9 @@ class QuestionDetailView(HitCountDetailView):
     View to call a question and to render all the details about that question.
     """
     model = Question
-    template_name = 'qa/detail_question.html'
+    #template_name = 'qa/detail_question.html'
+    template_name = 'jQueryMoban/detail_question.html'
+    
     context_object_name = 'question'
     slug_field = 'slug'
     try:
@@ -522,7 +530,8 @@ def profile(request, user_id):
     user_ob = get_user_model().objects.get(id=user_id)
     user = UserQAProfile.objects.get(user=user_ob)
     context = {'user': user}
-    return render(request, 'qa/profile.html', context)
+    # return render(request, 'qa/profile.html', context)
+    return render(request, 'jQueryMoban/profile.html', context)
 
 
 def show_img(request):

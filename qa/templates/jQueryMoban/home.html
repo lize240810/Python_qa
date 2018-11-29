@@ -1,4 +1,6 @@
 {% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'jQueryMoban/css/home.css' %}">
+
 <div class="container">
     <!-- <div class="laptops text-center">
         <img src="{% static 'jQueryMoban/img/laptop2.png' %}" alt="" class="img-responsive" />
@@ -10,14 +12,18 @@
                     {% for question in questions %}
                         <div class="row">
                             <div class="col-sm-1 ans"><small><div class="ques">{{ question.num_answers }}</div>回答</small></div>
-                            <div class="col-sm-1 ans"><small><div class="ques">{{ question.hit_count.hits }}</div>见解</small></div>
-                            <p>
-                                {% if question.reward %}<span class="glyphicon glyphicon-fire" aria-hidden="true"></span>{% endif %}
-                                <h3><a href="{% url 'qa_detail' question.id %}">{{ question.title }}</a></h3>
+                            <div class="col-sm-1 ans"><small><div class="ques">{{ question.hit_count.hits }}</div>见解</small></div>                            
+                            <p class="col-sm-4 col-md-offset-4">
+                                
+                                <h3>
+                                    <a href="{% url 'qa_detail' question.id %}">{{ question.title }}</a>
+                                    {% if question.reward %}<span class="glyphicon glyphicon-fire" style="color: red;" aria-hidden="true"></span>{% endif %}
+                                </h3>
                                 <br/>&nbsp;
                                     {% for tag in question.tags.all %}
                                             <a href="{% url 'qa_tag' tag.slug %}"><tag>{{ tag.name }}</tag></a>
                                     {% endfor %}
+                                    
                                 <small> {{ question.pub_date }}</small>
                             </p>
                         </div>

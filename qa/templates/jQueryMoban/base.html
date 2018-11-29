@@ -19,6 +19,7 @@
         <link href="{% static 'jQueryMoban/vendor/slick-carousel/slick/slick.css' %}" rel="stylesheet" type="text/css" /> 
         <link href="{% static 'jQueryMoban/vendor/animate.css/animate.min.css' %}" rel="stylesheet" type="text/css" /> 
         <link href="{% static 'jQueryMoban/css/main.css' %}" rel="stylesheet" type="text/css" />
+        <link href="{% static 'jQueryMoban/css/qa.css' %}" rel="stylesheet"/>
         {% block style %}
             
         {% endblock %}
@@ -28,18 +29,7 @@
 
     {% include './header.html' %}
 
-    <section class="top-header about-header with-bottom-effect transparent-effect dark">
-        <div class="bottom-effect"></div>
-        <div class="header-container">  
-            <div class="header-title wow fadeInUp"> 
-                <div class="header-icon">
-                    <img src="{% static 'img/logo.gif' %}">
-                </div>
-                <div class="title">知而必答</div>
-                <em>问有所答,所问必答</em>
-            </div>
-        </div><!--container-->
-    </section>
+
     {% block body %}{% endblock %}
 
     <!-- ========================== -->

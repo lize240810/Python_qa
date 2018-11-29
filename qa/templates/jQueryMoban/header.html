@@ -36,12 +36,15 @@
         </div>
         <div class="navbar-search ">
             <div class="container">
-                <form >
+                <form action="{% url 'qa_search' %}" >
                     <div class="input-group">
-                        <input type="text" placeholder="Type your search..." class="form-control" autocomplete="off">
+                        <input type="text" name='word' placeholder="输入您的搜索内容..." class="form-control" autocomplete="off">
                         <span class="input-group-btn">
                             <button type="reset" class="btn search-close" id="search-close">
                                 <i class="fa fa-close"></i>
+                            </button>
+                            <button type="submit" class="btn search-close" id="search-check">
+                                <i class="fa fa-check"></i>
                             </button>
                         </span>
                     </div>

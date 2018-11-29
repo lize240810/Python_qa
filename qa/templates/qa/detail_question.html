@@ -20,7 +20,7 @@
             </button>
         </div>
     {% endif %}
-
+    
     {% comment %}
     {% if question.reward %}
         <div class="alert alert-info" role="alert">这个问题已经<b>{{ question.reward }}<b> 解决了!
@@ -79,21 +79,23 @@
     {% if last_comments %}
     <h4>评论</h4>
     {% for comment in last_comments %}
-        <div class="row">
-            <div class="col-md-9 col-md-offset-1">
-                <p>
-                    <b>{{ comment.comment_text|markdown }}</b>
-                    <small> 
-                        <hr />
-                        <a href="{% url 'qa_profile' comment.user.id %}">{{ comment.user.username }}</a> 
-                        <div class="pull-right">{{ comment.pub_date }}</div>
-                    </small>
-                </p>
-                {% if comment.user == user %}
-                    <a href="{% url 'qa_update_question_comment' comment.id %}" class="pull-right">
-                        <small>编辑 &nbsp;</small>
-                    </a>
-                {% endif %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-2">
+                    <p>
+                        <b>{{ comment.comment_text|markdown }}</b>
+                        <small> 
+                            <hr />
+                            <a href="{% url 'qa_profile' comment.user.id %}">{{ comment.user.username }}</a> 
+                            <div class="pull-right">{{ comment.pub_date }}</div>
+                        </small>
+                    </p>
+                    {% if comment.user == user %}
+                        <a href="{% url 'qa_update_question_comment' comment.id %}" class="pull-right">
+                            <small>编辑 &nbsp;</small>
+                        </a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     {% endfor %}
@@ -192,12 +194,13 @@
             </div>
         <hr>
         {% endfor %}
-    {% else %}
+        {% else %}
         <img class="pull-right" src="{% static "qa/question.jpg" %}" alt="question"/>
         <center>
             <h2>这个问题还未解决, <a href="{% url 'qa_create_answer' question.id %}" role="button">我来回答!</a></h2>
         </center>
     {% endif %}
+
 {% endblock content %}
 
 {% block extra_js %}

@@ -7,6 +7,7 @@ from uuslug import slugify
 from django_markdown.models import MarkdownField
 from hitcount.models import HitCountMixin
 from taggit.managers import TaggableManager
+from mdeditor.fields import MDTextField
 
 
 class UserQAProfile(models.Model):

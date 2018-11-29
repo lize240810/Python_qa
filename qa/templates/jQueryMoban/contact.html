@@ -2,7 +2,7 @@
 
 {% load django_markdown %}
 {% load staticfiles %}
-
+{% load widget_tweaks %}
 
 {% block title %}
     提问
@@ -17,16 +17,22 @@
         background-color: #ff6400;
         color: white;
     }
+    #markItUpId_description {
+        width: 100%;
+    }
+    #id_description {
+        width: 100%;
+    }
 </style>
 {{ form.media }}
 {% endblock %}
 
 {% block body %}
-
+    {% include 'jQueryMoban/top.html' %}
     <section class="countact-us-section">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-8 col-md-offset-2">
                     <div class="contact-form">
                         <div class="form-heading">
                             <h3>提出好问题</h3>
@@ -39,7 +45,7 @@
                             </p>
                         </div>
                         <form method="post" action="{% block action_url %}{% url 'qa_create_question' %}{% endblock action_url %}" name="contact-form" id="contact-form">
-                            {% load widget_tweaks %}
+                            
                             {% csrf_token%}
                             <div class="row"> 
                                 <div class="col-md-6">
@@ -60,7 +66,8 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-default" value="提问">提交</button>
+                                        <input class="btn pull-left btn-primary display" type="button" value="返回" />
+                                        <button type="submit" class="btn btn-default pull-right" value="提问">提交</button>
                                     </div>
                                 </div>
                             </div> 
