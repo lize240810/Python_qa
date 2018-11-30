@@ -6,6 +6,12 @@
     .btn1{
         padding: 2px 5px;
     }
+    .btn-success, .btn-danger{
+        color: #ff6400;
+        background-color: #827a7000;
+        border: 0; 
+        font-size: 15px;
+    }
 </style>
 {% endblock %}
 
@@ -53,14 +59,14 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="next" value="{{ request.path }}">
                                             <input type="hidden" name="upvote" value="on">
-                                                <button type="submit" class="btn btn-sm btn-success btn1" data-toggle="tooltip" data-placement="top" title="Vote Up this answer">
+                                                <button type="submit" class="btn btn-sm btn-success btn1" data-toggle="tooltip" data-placement="top" title="投票赞成这个答案">
                                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                                 </button>
                                         </form>
                                         <form action="{% url 'qa_question_vote' question.id %}" method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="next" value="{{ request.path }}">
-                                            <button type="submit" class="btn btn-sm btn-danger btn1" data-toggle="tooltip" data-placement="bottom" title="Vote Down this answer">
+                                            <button type="submit" class="btn btn-sm btn-danger btn1" data-toggle="tooltip" data-placement="bottom" title="投票否决这个答案">
                                                 <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                                             </button>
                                         </form>
@@ -74,14 +80,14 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="next" value="{{ request.path }}">
                                             <input type="hidden" name="upvote" value="on">
-                                                <button type="submit" class="btn btn-sm btn-success btn1" data-toggle="tooltip" data-placement="top" title="Vote Up this answer">
+                                                <button type="submit" class="btn btn-sm btn-success btn1" data-toggle="tooltip" data-placement="top" title="投票赞成这个答案">
                                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                                 </button>
                                         </form>
                                         <form action="{% url 'qa_question_vote' question.id %}" method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="next" value="{{ request.path }}">
-                                            <button type="submit" class="btn btn-sm btn-danger btn1" data-toggle="tooltip" data-placement="bottom" title="Vote Down this answer">
+                                            <button type="submit" class="btn btn-sm btn-danger btn1" data-toggle="tooltip" data-placement="bottom" title="投票否决这个答案">
                                                 <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                                             </button>
                                         </form>
@@ -119,10 +125,10 @@
                             <div class="row">
                                 <div class="col-md-9 col-md-offset-1">
                                     <p>
-                                        <b>{{ comment.comment_text|markdown }}</b>
+                                        <b>{{ comment.comment_text| markdown }}</b>
                                         <small> 
                                             <hr />
-                                            <a href="{% url 'qa_profile' comment.user.id %}">{{ comment.user.username }}</a> 
+                                            <a href="{% url 'qa_profile' comment.user.id %}" title="用户名">{{ comment.user.username }}</a> 
                                             <div class="pull-right">{{ comment.pub_date }}</div>
                                         </small>
                                     </p>
@@ -152,14 +158,14 @@
                                                         {% csrf_token %}
                                                         <input type="hidden" name="next" value="{{ request.path }}">
                                                         <input type="hidden" name="upvote" value="on">
-                                                        <button type="submit" class="btn btn-sm btn-success btn1" data-toggle="tooltip" data-placement="top" title="Vote Up this answer">
+                                                        <button type="submit" class="btn btn-sm btn-success btn1" data-toggle="tooltip" data-placement="top" title="投票赞成这个答案">
                                                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                                         </button>
                                                     </form>
                                                     <form action="{% url 'qa_answer_vote' answer.id %}" method="POST">
                                                           {% csrf_token %}
                                                           <input type="hidden" name="next" value="{{ request.path }}">
-                                                          <button type="submit" class="btn btn-sm btn-danger btn1" data-toggle="tooltip" data-placement="bottom" title="Vote Down this answer">
+                                                          <button type="submit" class="btn btn-sm btn-danger btn1" data-toggle="tooltip" data-placement="bottom" title="投票否决这个答案">
                                                                 <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                                                           </button>
                                                     </form>
@@ -227,7 +233,7 @@
                                             <form action="{% url 'qa_answer_question' answer.id %}" method="POST">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="next" value="{{ request.path }}"/>
-                                                <button type="submit" class="btn btn-primary pull-right" data-toggle="tooltip" data-placement="bottom" title="Mark as answer">
+                                                <button type="submit" class="btn btn-primary pull-right btn1" data-toggle="tooltip" data-placement="bottom" title="使用此答案">
                                                     <span class="fa fa-check" aria-hidden="true"></span>
                                                 </button>
                                             </form>

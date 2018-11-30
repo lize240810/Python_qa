@@ -148,7 +148,7 @@ class AnswerComment(BaseComment):
 
 class QuestionComment(BaseComment):
     """Model class to contain the comments for the questions."""
-    comment_text = models.CharField(max_length=250)
+    comment_text = MarkdownField()
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):

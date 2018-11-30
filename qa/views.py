@@ -31,11 +31,10 @@ if qa_messages:
     from django.contrib import messages
 
 
-"""Dear maintainer:
+"""亲爱的维护人员:
 
-Once you are done trying to 'optimize' this routine, and have realized what a
-terrible mistake that was, please increment the following counter as a warning
-to the next guy:
+一旦您尝试“优化”这个例程，并意识到这是一个多么严重的错误，请增加以下计数器作为警告
+下一个人:
 
 total_hours_wasted_here = 2
 """
@@ -43,9 +42,9 @@ total_hours_wasted_here = 2
 
 class AnswerQuestionView(LoginRequired, View):
     """
-    View to select an answer as the satisfying answer to the question,
-    validating than the user who created que
-    question is the only one allowed to make those changes.
+    查看是否选择一个答案作为该问题的满意答案，
+    验证比创建que的用户
+    只有问题才能使这些改变成为可能。.
     """
     model = Answer
 
@@ -53,7 +52,7 @@ class AnswerQuestionView(LoginRequired, View):
         answer = get_object_or_404(self.model, pk=answer_id)
         if answer.question.user != request.user:
             raise ValidationError(
-                "Sorry, you're not allowed to close this question.")
+                "对不起，你不能结束这个问题")
 
         else:
             answer.question.answer_set.update(answer=False)
@@ -78,9 +77,8 @@ class AnswerQuestionView(LoginRequired, View):
 
 
 class CloseQuestionView(LoginRequired, View):
-    """View to
-    mark the question as closed, validating than the user who created que
-    question is the only one allowed to make those changes.
+    """视图
+    将问题标记为closed，验证创建que问题的用户是唯一允许进行这些更改的用户.
     """
     model = Question
 
@@ -88,13 +86,13 @@ class CloseQuestionView(LoginRequired, View):
         question = get_object_or_404(self.model, pk=question_id)
         if question.user != request.user:
             raise ValidationError(
-                "Sorry, you're not allowed to close this question.")
+                "对不起，你不能结束这个问题。")
         else:
             if not question.closed:
                 question.closed = True
 
             else:
-                raise ValidationError("Sorry, this question is already closed")
+                raise ValidationError("对不起，这个问题已经结束了")
 
             question.save()
 
@@ -107,18 +105,17 @@ class CloseQuestionView(LoginRequired, View):
 
 
 class QuestionIndexView(ListView):
-    """CBV to render the index view
+    """
+        以呈现索引视图
     """
     model = Question
     paginate_by = 10
     context_object_name = 'questions'
-    # template_name = 'qa/index.html'
     template_name = 'jQueryMoban/index.html'
     ordering = '-pub_date'
 
     def get_context_data(self, *args, **kwargs):
-        context = super(
-            QuestionIndexView, self).get_context_data(*args, **kwargs)
+        context = super(QuestionIndexView, self).get_context_data(*args, **kwargs)
         noans = Question.objects.order_by('-pub_date').filter(
             answer__isnull=True).select_related('user')\
             .annotate(num_answers=Count('answer', distinct=True),
@@ -128,6 +125,7 @@ class QuestionIndexView(ListView):
         context['anscount'] = Answer.objects.count()
         paginator = Paginator(noans, 10)
         page = self.request.GET.get('noans_page')
+        print(page,'*'*100)
         context['active_tab'] = self.request.GET.get('active_tab', 'latest')
         tabs = ['latest', 'unans', 'reward']
         context['active_tab'] = 'latest' if context['active_tab'] not in\
@@ -140,7 +138,6 @@ class QuestionIndexView(ListView):
 
         except EmptyPage:  # pragma: no cover
             noans = paginator.page(paginator.num_pages)
-
         context['totalnoans'] = paginator.count
         context['noans'] = noans
         context['reward'] = Question.objects.order_by('-reward').filter(
@@ -163,10 +160,10 @@ class QuestionIndexView(ListView):
 
 class QuestionsSearchView(QuestionIndexView):
     """
-    Display a ListView page inherithed from the QuestionIndexView filtered by
-    the search query and sorted by the different elements aggregated.
+    显示从所筛选的QuestionIndexView继承的ListView页面
+    搜索查询并按聚合的不同元素排序。
     """
-
+    template_name = 'jQueryMoban/services.html'
     def get_queryset(self):
         result = super(QuestionsSearchView, self).get_queryset()
         query = self.request.GET.get('word', '')
@@ -193,12 +190,14 @@ class QuestionsSearchView(QuestionIndexView):
 
 
 class QuestionsByTagView(ListView):
-    """View to call all the questions clasiffied under one specific tag.
+    """
+        查看是否在一个特定标记下调用所有clasiffied问题。
     """
     model = Question
     paginate_by = 10
     context_object_name = 'questions'
-    template_name = 'qa/index.html'
+    
+    template_name = 'jQueryMoban/services.html'
 
     def get_queryset(self, **kwargs):
         return Question.objects.filter(tags__slug=self.kwargs['tag'])
@@ -223,16 +222,15 @@ class QuestionsByTagView(ListView):
 
 class CreateQuestionView(LoginRequired, CreateView):
     """
-    View to handle the creation of a new question
+    视图来处理新问题的创建
     """
-    # template_name = 'qa/create_question.html'
     template_name = 'jQueryMoban/contact.html'
     message = _('谢谢你！你的问题创建了。')
     form_class = QuestionForm
 
     def form_valid(self, form):
         """
-        Create the required relation
+        创建所需的关系
         """
         form.instance.user = self.request.user
         return super(CreateQuestionView, self).form_valid(form)
@@ -246,9 +244,8 @@ class CreateQuestionView(LoginRequired, CreateView):
 
 class UpdateQuestionView(LoginRequired, AuthorRequiredMixin, UpdateView):
     """
-    Updates the question
+    更新的问题
     """
-    # template_name = 'qa/update_question.html'
     template_name = 'jQueryMoban/update_question.html'
     model = Question
     pk_url_kwarg = 'question_id'
@@ -261,9 +258,9 @@ class UpdateQuestionView(LoginRequired, AuthorRequiredMixin, UpdateView):
 
 class CreateAnswerView(LoginRequired, CreateView):
     """
-    View to create new answers for a given question
+    视图为给定问题创建新答案
     """
-    # template_name = 'qa/create_answer.html'
+    
     template_name = 'jQueryMoban/create_answer.html'
     
     model = Answer
@@ -303,9 +300,8 @@ class UpdateAnswerView(LoginRequired, AuthorRequiredMixin, UpdateView):
 
 class CreateAnswerCommentView(LoginRequired, CreateView):
     """
-    View to create new comments for a given answer
+    视图可为给定答案创建新评论
     """
-    # template_name = 'qa/create_comment.html'
     template_name = 'jQueryMoban/create_comment.html'
     model = AnswerComment
     fields = ['comment_text']
@@ -313,8 +309,7 @@ class CreateAnswerCommentView(LoginRequired, CreateView):
 
     def form_valid(self, form):
         """
-        Creates the required relationship between answer
-        and user/comment
+        在答案之间创建所需的关系 用户/发表评论
         """
         form.instance.user = self.request.user
         form.instance.answer_id = self.kwargs['answer_id']
@@ -331,17 +326,16 @@ class CreateAnswerCommentView(LoginRequired, CreateView):
 
 class CreateQuestionCommentView(LoginRequired, CreateView):
     """
-    View to create new comments for a given question
+    视图可为给定问题创建新评论
     """
-    template_name = 'qa/create_comment.html'
+    template_name = 'jQueryMoban/create_comment.html'
     model = QuestionComment
     fields = ['comment_text']
-    message = _('谢谢你！你的评论已经发表了。')
+    message = ('谢谢你！你的评论已经发表了。')
 
     def form_valid(self, form):
         """
-        Creates the required relationship between question
-        and user/comment
+        创建问题之间所需的关系 和用户/发表评论
         """
         form.instance.user = self.request.user
         form.instance.question_id = self.kwargs['question_id']
@@ -357,9 +351,8 @@ class CreateQuestionCommentView(LoginRequired, CreateView):
 class UpdateQuestionCommentView(LoginRequired,
                                 AuthorRequiredMixin, UpdateView):
     """
-    Updates the comment question
+    更新评论问题
     """
-    # template_name = 'qa/create_comment.html'
     template_name = 'jQueryMoban/create_comment.html'
     model = QuestionComment
     pk_url_kwarg = 'comment_id'
@@ -373,10 +366,9 @@ class UpdateQuestionCommentView(LoginRequired,
 
 class UpdateAnswerCommentView(UpdateQuestionCommentView):
     """
-    Updates the comment answer
+    更新评论答案
     """
     model = AnswerComment
-
     def get_success_url(self):
         answer_comment = self.get_object()
         return reverse('qa_detail',
@@ -385,10 +377,9 @@ class UpdateAnswerCommentView(UpdateQuestionCommentView):
 
 class QuestionDetailView(HitCountDetailView):
     """
-    View to call a question and to render all the details about that question.
+    视图调用一个问题并呈现有关该问题的所有细节。
     """
     model = Question
-    #template_name = 'qa/detail_question.html'
     template_name = 'jQueryMoban/detail_question.html'
     
     context_object_name = 'question'
@@ -426,15 +417,15 @@ class QuestionDetailView(HitCountDetailView):
 
 
 class ParentVoteView(View):
-    """Base class to create a vote for a given model (question/answer)
+    """
+    为给定模型创建投票的基类(问题/答案)
     """
     model = None
     vote_model = None
 
     def get_vote_kwargs(self, user, vote_target):
         """
-        This takes the user and the vote and adjusts the kwargs
-        depending on the used model.
+        这将获取用户和投票，并调整kwargs取决于使用的模型。
         """
         object_kwargs = {'user': user}
         if self.model == Question:
@@ -512,7 +503,7 @@ class ParentVoteView(View):
 
 class AnswerVoteView(ParentVoteView):
     """
-    Class to upvote answers
+        投票表决答案
     """
     model = Answer
     vote_model = AnswerVote
@@ -520,7 +511,7 @@ class AnswerVoteView(ParentVoteView):
 
 class QuestionVoteView(ParentVoteView):
     """
-    Class to upvote questions
+        投票表决问题
     """
     model = Question
     vote_model = QuestionVote
@@ -530,9 +521,7 @@ def profile(request, user_id):
     user_ob = get_user_model().objects.get(id=user_id)
     user = UserQAProfile.objects.get(user=user_ob)
     context = {'user': user}
-    # return render(request, 'qa/profile.html', context)
+    
     return render(request, 'jQueryMoban/profile.html', context)
 
 
-def show_img(request):
-    return render(request, 'qa/img.html')

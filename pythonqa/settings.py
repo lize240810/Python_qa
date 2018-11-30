@@ -22,9 +22,9 @@ SECRET_KEY = '!-lbj+!p7w3ric9#h7i&!vv^xxtnbkbx-np1ol)yx6*kpt5w+v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','lize.wx.gsw945.com']
 
-INTERNAL_IPS = ['127.0.0.1']
+INTERNAL_IPS = ['127.0.0.1', '0.0.0.0']
 
 # Application definition
 

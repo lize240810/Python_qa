@@ -63,5 +63,6 @@ urlpatterns = [
 
     url(r'hitcount/', include('hitcount.urls', namespace='hitcount')),
 
+
 ]
 

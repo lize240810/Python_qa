@@ -49,4 +49,16 @@ $(function () {
     });
 
 });
-		
+$(function(){
+    $(".feature-item").click(
+        function(){
+            $tag = $(this)
+            if(typeof($tag.attr("data-toggle")) != "undefined"){
+                if(!$tag.hasClass("active")){
+                    $(".feature-item").removeClass('active')
+                    $tag.addClass('active');
+                }
+            }
+        }
+    )
+})
