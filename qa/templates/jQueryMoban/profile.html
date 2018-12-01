@@ -1,9 +1,8 @@
 {% extends 'jQueryMoban/base.html' %}
 {% load staticfiles %}
 {% block title %}
-    主页
+    个人信息
 {% endblock %}
-
 
 {% block style %}
     <link rel="stylesheet" href="{% static 'jQueryMoban/css/profile.css' %}" type="text/css" media="all" />
@@ -69,16 +68,4 @@
         </div>
     </div>
 {% endblock %} 
-{% block script %}
-    <script>
-        $(document).ready(function() { 
-            $("#owl-demo").owlCarousel({
-                autoPlay: 3000, //Set AutoPlay to 3 seconds
-                autoPlay:true,
-                items : 3,
-                itemsDesktop : [640,5],
-                itemsDesktopSmall : [414,4]
-            });
-        }); 
-    </script>
-{% endblock %}
+

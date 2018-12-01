@@ -125,7 +125,6 @@ class QuestionIndexView(ListView):
         context['anscount'] = Answer.objects.count()
         paginator = Paginator(noans, 10)
         page = self.request.GET.get('noans_page')
-        print(page,'*'*100)
         context['active_tab'] = self.request.GET.get('active_tab', 'latest')
         tabs = ['latest', 'unans', 'reward']
         context['active_tab'] = 'latest' if context['active_tab'] not in\
@@ -521,7 +520,6 @@ def profile(request, user_id):
     user_ob = get_user_model().objects.get(id=user_id)
     user = UserQAProfile.objects.get(user=user_ob)
     context = {'user': user}
-    
     return render(request, 'jQueryMoban/profile.html', context)
 
 

@@ -5,25 +5,37 @@ from django.template import RequestContext
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from .forms import UserForm
+from django.urls import reverse
+
+import json
 
 
 def register(request):
     registered = False
-
+    
     if request.method == 'POST':
+        ret = {}
         user_form = UserForm(data=request.POST)
-        # user = authenticate(username=username, password=password)
         if user_form.is_valid():
             user = user_form.save()
-
             user.set_password(user.password)
             user.save()
 
+            ret = {
+                'error': 0,
+                'msg':'注册成功'
+            }
             registered = True
         else:
-            return render(request,
-                'login.html',
-                {'user_form': user_form, 'registered': registered})
+            ret = {
+                'error': 1,
+                'msg':'注册失败'
+            }
+
+            # return render(request,
+            #     'login.html',
+            #     {'user_form': user_form, 'registered': registered})
+        return HttpResponse(json.dumps(ret), content_type='application/json')
     else:
         user_form = UserForm()
 
@@ -33,44 +45,40 @@ def register(request):
 
 
 def user_login(request):
-    # Like before, obtain the context for the user's request.
-    context = RequestContext(request)
-
-    # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
-        # Gather the username and password provided by the user.
-        # This information is obtained from the login form.
         username = request.POST['username']
         password = request.POST['password']
-
-        # Use Django's machinery to attempt to see if the username/password
-        # combination is valid - a User object is returned if it is.
         user = authenticate(username=username, password=password)
-
-        # If we have a User object, the details are correct.
-        # If None (Python's way of representing the absence of a value),
-        # no user
-        # with matching credentials was found.
+        ret = {}
         if user:
             # Is the account active? It could have been disabled.
             if user.is_active:
-                # If the account is valid and active, we can log the user in.
-                # We'll send the user back to the homepage.
+                # 如果帐户是有效的，我们可以登录用户
+                # 我们将把用户送回主页。
                 login(request, user)
-                return HttpResponseRedirect('/')
+                ret = {
+                    'error': 0,
+                    # 重定向
+                    'url': reverse('qa_index')
+                }
+                # window.location.href = resp.url;
             else:
-                # An inactive account was used - no logging in!
-                return HttpResponse("Your account is disabled.")
+                # 使用了一个非活动帐户——没有登录
+                ret = {
+                    'error': 1,
+                    'msg':'您的帐户被禁用'
+                }
         else:
-            # Bad login details were provided. So we can't log the user in.
+            # 提供了错误的登录细节。所以我们不能让用户登录.
             print("Invalid login details: {0}, {1}".format(username, password))
-            return HttpResponse("Invalid login details supplied.")
-
+            ret = { 
+                'error': 2,
+                'msg':'提供的登录信息无效.'
+            }
+        return HttpResponse(json.dumps(ret), content_type='application/json')
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
     else:
-        # No context variables to pass to the template system, hence the
-        # blank dictionary object...
         return render(request, 'login.html', {})
 
 

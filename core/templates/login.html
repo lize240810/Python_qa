@@ -11,7 +11,7 @@
 	<![endif]-->
 </head>
 <body>
-	<div class="jq22-container" style="padding-top:100px">
+	<div class="jq22-container">
 		<div class="login-wrap">
 			<div class="login-html">
 				<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登 录</label>
@@ -25,40 +25,43 @@
 						</div>
 						<div class="group">
 							<label for="pass" class="label">密码</label>
-							<input id="pass" type="password" class="input" placeholder="密码" type="password" name="password" data-type="password">
+							<input id="pass"  class="input" placeholder="密码" type="password" name="password" data-type="password">
 						</div>
 						<div class="group">
 							<input id="check" type="checkbox" class="check" checked>
 							<label for="check"><span class="icon"></span> 记住登录</label>
 						</div>
 						<div class="group">
-							<input type="submit" class="button" value="登 录">
+							<input type="button" class="button" value="登 录">
 						</div>
 						<div class="hr"></div>
 						<div class="foot-lnk">
 							<a href="#forgot">忘记密码?</a>
+						</div>
+						<div class="foot-lnk qaindex">
+							<a href="{% url 'qa_index' %}">访客模式</a>
 						</div>
 					</form>
 					<form class="sign-up-htm" id="user_form" method="post" action="/register/">
 						{% csrf_token %}
 						<div class="group">
 							<label for="user" class="label">用户名</label>
-							<input id="user" name="username" type="text" class="input">
+							<input id="username" name="username" type="text" class="input">
 						</div>
 						<div class="group">
 							<label for="pass" class="label">密码</label>
-							<input id="pass" name="password" type="password" class="input" data-type="password">
+							<input id="password" name="password" type="password" class="input" data-type="password">
 						</div>
 						<div class="group">
 							<label for="pass" class="label">确认密码</label>
-							<input id="pass" name="confirm_password" type="password" class="input" data-type="password">
+							<input id="confirm_password" name="confirm_password" type="password" class="input" data-type="password">
 						</div>
 						<div class="group">
 							<label for="pass" class="label">电子邮箱</label>
-							<input id="pass" name="email" type="text" class="input">
+							<input id="email" name="email" type="text" class="input">
 						</div>
 						<div class="group">
-							<input type="submit" class="button" value="注册">
+							<input type="button" class="button" value="注册">
 						</div>
 						<div class="hr"></div>
 						<div class="foot-lnk">
@@ -69,6 +72,8 @@
 			</div>
 		</div>
 	</div>
-	
+	<script src="/static/js/jquery.min.js"></script>
+	<script src="/static/js/sweetalert.min.js"></script> 
+	<script src="/static/js/login.js"></script>
 </body>
 </html>

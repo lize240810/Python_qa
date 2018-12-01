@@ -132,7 +132,7 @@ div[class*='card-container-'] {
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%;
+  
   -webkit-transition: all .3s ease;
   transition: all .3s ease;
   border-radius: 2px;
