@@ -55,18 +55,19 @@
                                         <big class="pull-left custom-big"><span class="badge">{{ question.total_points }}</span></big><br><br>
                                     </div>
                                     <div class ="col-sm-1">
-                                        <form action="{% url 'qa_question_vote' question.id %}" method="POST">
+                                        <form action="{% url 'qa_question_vote' %}" id="plus" method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="next" value="{{ request.path }}">
                                             <input type="hidden" name="upvote" value="on">
-                                                <button type="submit" class="btn btn-sm btn-success btn1" data-toggle="tooltip" data-placement="top" title="投票赞成这个答案">
+                                            <input type="hidden" name="question_id" id="subtract" value="{{ question.id }}">
+                                                <button type="button" class="btn btn-sm btn-success btn1" data-toggle="tooltip" data-placement="top" title="赞一下">
                                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                                 </button>
                                         </form>
-                                        <form action="{% url 'qa_question_vote' question.id %}" method="POST">
+                                        <form action="{% url 'qa_question_vote' %}" method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="next" value="{{ request.path }}">
-                                            <button type="submit" class="btn btn-sm btn-danger btn1" data-toggle="tooltip" data-placement="bottom" title="投票否决这个答案">
+                                            <button type="submit" class="btn btn-sm btn-danger btn1" data-toggle="tooltip" data-placement="bottom" title="踩一下">
                                                 <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                                             </button>
                                         </form>
@@ -76,7 +77,8 @@
                                         <big class="pull-left custom-big"><span class="badge">{{ question.total_points }}</span></big><br><br>
                                     </div>
                                     <div class ="col-sm-1">
-                                        <form action="{% url 'qa_question_vote' question.id %}" method="POST">
+                                    {% if user.is_authenticated and question.user == user %}
+                                        <form action="{% url 'qa_question_vote' %}" method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="next" value="{{ request.path }}">
                                             <input type="hidden" name="upvote" value="on">
@@ -84,13 +86,14 @@
                                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                                 </button>
                                         </form>
-                                        <form action="{% url 'qa_question_vote' question.id %}" method="POST">
+                                        <form action="{% url 'qa_question_vote' %}" method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="next" value="{{ request.path }}">
                                             <button type="submit" class="btn btn-sm btn-danger btn1" data-toggle="tooltip" data-placement="bottom" title="投票否决这个答案">
                                                 <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                                             </button>
                                         </form>
+                                    {% endif %}
                                     </div>
                                 {% endif %}
                                 <div class="col-sm-10">
@@ -261,9 +264,36 @@
 {% endblock body %}
 
 {% block script %}
-<script>
+<script type="text/javascript">
+    /*fDUcCYkK3UJLKaOMo0RBFiPAQJRqN98pMg2jPpJMOyqyIDBVRLpeZxFYUw7QpDDn*/
+    function plus(){
+        var next = $('#plus input[name="next"]').val(),
+            upvote = $('#plus input[name="upvote"]').val(),
+            question_id = $('#plus input[name="question_id"]').val();
+        $.ajax({
+            url: '/vote/question/',
+            type: 'POST',
+            data: {
+                'next': next,
+                'upvote': upvote,
+                'question_id': question_id,
+                'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+            },
+            datatype: 'json',
+             success: function(resp){
+                swal("干得漂亮！", "+1","success")
+            },
+            error: function(info){
+                swal("好气哟", "出现错误了","error")
+            }
+        });
+    }
+
+
     $(function () {
-          $('[data-toggle="tooltip"]').tooltip()
+        $("#plus button").click(plus);
+        $('[data-toggle="tooltip"]').tooltip()
     })
+
 </script>
 {% endblock script %}

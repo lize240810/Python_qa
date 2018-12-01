@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^answer/edit/(?P<answer_id>\d+)/$',
         views.UpdateAnswerView.as_view(), name='qa_update_answer'),
 
-    url(r'^vote/question/(?P<object_id>\d+)/$',
+    url(r'^vote/question/$',
         views.QuestionVoteView.as_view(), name='qa_question_vote'),
 
     url(r'^vote/answer/(?P<object_id>\d+)/$',

@@ -11,6 +11,7 @@ from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import ugettext as _
 from django.views.generic import CreateView, ListView, UpdateView, View
+from django.http import JsonResponse, HttpResponse
 from hitcount.views import HitCountDetailView
 from qa.models import (Answer, AnswerComment, AnswerVote, Question,
                        QuestionComment, QuestionVote, UserQAProfile)
@@ -476,7 +477,6 @@ class ParentVoteView(View):
                     if upvote:
                         vote_target.positive_votes += 1
                         vote_target.negative_votes -= 1
-
                     else:
                         vote_target.negative_votes += 1
                         vote_target.positive_votes -= 1
@@ -515,6 +515,86 @@ class QuestionVoteView(ParentVoteView):
     model = Question
     vote_model = QuestionVote
 
+    def ajax(self, request, *args, **kwargs):
+        method = request.method.upper()
+        req_data = getattr(request, method, {})
+        next_url = req_data['next']
+        upvote = req_data['upvote']
+        upvote = True if upvote == 'on' else False
+        question_id = req_data['question_id']
+
+        vote_target = get_object_or_404(self.model, pk=question_id)
+        msg = None
+        print(vote_target.user)
+        print(request.user)
+        if vote_target.user == request.user:
+            msg = '对不起，投票给你自己的答案是不可能的'
+        else:
+            object_kwargs = self.get_vote_kwargs(request.user, vote_target)
+            vote, created = self.vote_model.objects.get_or_create(
+                defaults={'value': upvote}, **object_kwargs
+            )
+
+            if created:
+                vote_target.user.userqaprofile.points += 1 if upvote else -1
+                if upvote:
+                    vote_target.positive_votes += 1
+
+                else:
+                    vote_target.negative_votes += 1
+
+            else:
+                if vote.value == upvote:
+                    vote.delete()
+                    vote_target.user.userqaprofile.points += -1 if upvote else 1
+                    if upvote:
+                        vote_target.positive_votes -= 1
+
+                    else:
+                        vote_target.negative_votes -= 1
+
+                else:
+                    vote_target.user.userqaprofile.points += 2 if upvote else -2
+                    vote.value = upvote
+                    vote.save()
+                    if upvote:
+                        vote_target.positive_votes += 1
+                        vote_target.negative_votes -= 1
+
+                    else:
+                        vote_target.negative_votes += 1
+                        vote_target.positive_votes -= 1
+
+            vote_target.user.userqaprofile.save()
+            if self.model == Question:
+                vote_target.reward = question_score(vote_target)
+
+            if self.model == Answer:
+                vote_target.question.reward = question_score(
+                    vote_target.question)
+                vote_target.question.save()
+
+            vote_target.save()
+        if next_url is not '':
+            url = next_url;
+
+        else:
+            url = reverse('qa_index')
+        ret = {
+            'msg': msg,
+            'url': url
+        }
+        return JsonResponse(ret)
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.method.lower() in self.http_method_names:
+            if request.method.lower() in ['get', 'post']:
+                handler = self.ajax
+            else:
+                handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+        else:
+            handler = self.http_method_not_allowed
+        return handler(request, *args, **kwargs)
 
 def profile(request, user_id):
     user_ob = get_user_model().objects.get(id=user_id)

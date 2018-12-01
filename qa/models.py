@@ -11,16 +11,16 @@ from mdeditor.fields import MDTextField
 
 
 class UserQAProfile(models.Model):
-    """Model class to define a User profile for the app, directly linked
-    to the core Django user model."""
+    """模型类为应用程序定义一个用户配置文件，直接链接
+        到核心Django用户模型"""
     user = AutoOneToOneField(settings.AUTH_USER_MODEL, primary_key=True,
                              on_delete=models.CASCADE)
     points = models.IntegerField(default=0)
-    # The additional attributes we wish to include.
+    # 我们希望包括的其他属性。
     website = models.URLField(blank=True)
 
     def modify_reputation(self, added_points):
-        """Core function to modify the reputation of the user profile."""
+        """核心功能是修改用户档案的信誉"""
         self.points = F('points') + added_points
         self.save()
 
@@ -29,7 +29,7 @@ class UserQAProfile(models.Model):
 
 
 class Question(models.Model, HitCountMixin):
-    """Model class to contain every question in the forum"""
+    """模型类来包含论坛中的每个问题"""
     slug = models.SlugField(max_length=200)
     title = models.CharField(max_length=200, blank=False, verbose_name='标题')
     description = MarkdownField()
@@ -64,8 +64,7 @@ class Question(models.Model, HitCountMixin):
 
 
 class Answer(models.Model):
-    """Model class to contain every answer in the forum and to link it
-    to the proper question."""
+    """模型类来包含论坛中的每个答案并链接它 正确的问题。."""
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer_text = MarkdownField()
     pub_date = models.DateTimeField('date published', auto_now_add=True)
@@ -95,7 +94,7 @@ class Answer(models.Model):
 
 
 class VoteParent(models.Model):
-    """Abstract model to define the basic elements to every single vote."""
+    """抽象模型来定义每个投票的基本元素。"""
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     value = models.BooleanField(default=True)
 
@@ -104,7 +103,7 @@ class VoteParent(models.Model):
 
 
 class AnswerVote(VoteParent):
-    """Model class to contain the votes for the answers."""
+    """模型类来包含答案的投票。"""
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
 
     class Meta:
@@ -112,7 +111,7 @@ class AnswerVote(VoteParent):
 
 
 class QuestionVote(VoteParent):
-    """Model class to contain the votes for the questions."""
+    """模型类来包含问题的投票。"""
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
     class Meta:
@@ -120,7 +119,7 @@ class QuestionVote(VoteParent):
 
 
 class BaseComment(models.Model):
-    """Abstract model to define the basic elements to every single comment."""
+    """抽象模型来定义每个注释的基本元素"""
     pub_date = models.DateTimeField('date published', auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -132,7 +131,7 @@ class BaseComment(models.Model):
 
 
 class AnswerComment(BaseComment):
-    """Model class to contain the comments for the answers."""
+    """模型类来包含答案的注释."""
     comment_text = MarkdownField()
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
     def save(self, *args, **kwargs):
@@ -147,7 +146,7 @@ class AnswerComment(BaseComment):
 
 
 class QuestionComment(BaseComment):
-    """Model class to contain the comments for the questions."""
+    """模型类来包含问题的注释."""
     comment_text = MarkdownField()
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
