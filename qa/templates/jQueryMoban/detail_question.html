@@ -59,15 +59,16 @@
                                             {% csrf_token %}
                                             <input type="hidden" name="next" value="{{ request.path }}">
                                             <input type="hidden" name="upvote" value="on">
-                                            <input type="hidden" name="question_id" id="subtract" value="{{ question.id }}">
+                                            <input type="hidden" name="question_id" value="{{ question.id }}">
                                                 <button type="button" class="btn btn-sm btn-success btn1" data-toggle="tooltip" data-placement="top" title="赞一下">
                                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                                 </button>
                                         </form>
-                                        <form action="{% url 'qa_question_vote' %}" method="POST">
+                                        <form action="{% url 'qa_question_vote' %}" id="subtract" method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="next" value="{{ request.path }}">
-                                            <button type="submit" class="btn btn-sm btn-danger btn1" data-toggle="tooltip" data-placement="bottom" title="踩一下">
+                                            <input type="hidden" name="question_id" value="{{ question.id }}">
+                                            <button type="button" class="btn btn-sm btn-danger btn1" data-toggle="tooltip" data-placement="bottom" title="踩一下">
                                                 <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                                             </button>
                                         </form>
@@ -76,25 +77,27 @@
                                     <div class ="col-sm-1">
                                         <big class="pull-left custom-big"><span class="badge">{{ question.total_points }}</span></big><br><br>
                                     </div>
-                                    <div class ="col-sm-1">
                                     {% if user.is_authenticated and question.user == user %}
-                                        <form action="{% url 'qa_question_vote' %}" method="POST">
+                                    <div class ="col-sm-1">
+                                        <form action="{% url 'qa_question_vote' %}" id="plus" method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="next" value="{{ request.path }}">
                                             <input type="hidden" name="upvote" value="on">
-                                                <button type="submit" class="btn btn-sm btn-success btn1" data-toggle="tooltip" data-placement="top" title="投票赞成这个答案">
+                                            <input type="hidden" name="question_id" value="{{ question.id }}">
+                                                <button type="button" class="btn btn-sm btn-success btn1" data-toggle="tooltip" data-placement="top" title="赞一下">
                                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                                 </button>
                                         </form>
-                                        <form action="{% url 'qa_question_vote' %}" method="POST">
+                                        <form action="{% url 'qa_question_vote' %}" id="subtract" method="POST">
                                             {% csrf_token %}
                                             <input type="hidden" name="next" value="{{ request.path }}">
-                                            <button type="submit" class="btn btn-sm btn-danger btn1" data-toggle="tooltip" data-placement="bottom" title="投票否决这个答案">
+                                            <input type="hidden" name="question_id" value="{{ question.id }}">
+                                            <button type="button" class="btn btn-sm btn-danger btn1" data-toggle="tooltip" data-placement="bottom" title="踩一下">
                                                 <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                                             </button>
                                         </form>
-                                    {% endif %}
                                     </div>
+                                    {% endif %}
                                 {% endif %}
                                 <div class="col-sm-10">
                                     <small class="pull-right">发布者 {{ question.user.username }}</small>
@@ -281,7 +284,7 @@
             },
             datatype: 'json',
              success: function(resp){
-                swal("干得漂亮！", "+1","success")
+                $(".badge").text(resp.msg)
             },
             error: function(info){
                 swal("好气哟", "出现错误了","error")
@@ -289,8 +292,30 @@
         });
     }
 
+    function subtract(){
+            var next = $('#subtract input[name="next"]').val(),
+                question_id = $('#subtract input[name="question_id"]').val();
+        $.ajax({
+            url: '/vote/question/',
+            type: 'POST',
+            data: {
+                'next': next,
+                'question_id': question_id,
+                'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+            },
+            datatype: 'json',
+             success: function(resp){
+                $(".badge").text(resp.msg)
+            },
+            error: function(info){
+                swal("好气哟", "出现错误了","error")
+            }
+        }); 
+    }
 
     $(function () {
+
+        $("#subtract button").click(subtract);
         $("#plus button").click(plus);
         $('[data-toggle="tooltip"]').tooltip()
     })

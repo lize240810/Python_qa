@@ -21,6 +21,8 @@ from .forms import QuestionForm
 from .mixins import AuthorRequiredMixin, LoginRequired
 from .utils import question_score
 
+import json
+
 try:
     qa_messages = 'django.contrib.messages' in settings.INSTALLED_APPS and\
         settings.QA_SETTINGS['qa_messages']
@@ -519,72 +521,52 @@ class QuestionVoteView(ParentVoteView):
         method = request.method.upper()
         req_data = getattr(request, method, {})
         next_url = req_data['next']
-        upvote = req_data['upvote']
+        upvote = req_data.get('upvote','')
         upvote = True if upvote == 'on' else False
         question_id = req_data['question_id']
-
         vote_target = get_object_or_404(self.model, pk=question_id)
         msg = None
-        print(vote_target.user)
-        print(request.user)
-        if vote_target.user == request.user:
-            msg = '对不起，投票给你自己的答案是不可能的'
+        object_kwargs = self.get_vote_kwargs(request.user, vote_target)
+        vote, created = self.vote_model.objects.get_or_create(
+            defaults={'value': upvote}, **object_kwargs
+        )
+        if created:
+            vote_target.user.userqaprofile.points += 1 if upvote else -1
+            if upvote:
+                vote_target.positive_votes += 1
+            else:
+                vote_target.negative_votes += 1
         else:
-            object_kwargs = self.get_vote_kwargs(request.user, vote_target)
-            vote, created = self.vote_model.objects.get_or_create(
-                defaults={'value': upvote}, **object_kwargs
-            )
+            if vote.value == upvote:
+                vote.delete()
+                vote_target.user.userqaprofile.points += -1 if upvote else 1
+                if upvote:
+                    vote_target.positive_votes -= 1
 
-            if created:
-                vote_target.user.userqaprofile.points += 1 if upvote else -1
+                else:
+                    vote_target.negative_votes -= 1
+            else:
+                vote_target.user.userqaprofile.points += 2 if upvote else -2
+                vote.value = upvote
+                vote.save()
                 if upvote:
                     vote_target.positive_votes += 1
-
+                    vote_target.negative_votes -= 1
                 else:
                     vote_target.negative_votes += 1
-
-            else:
-                if vote.value == upvote:
-                    vote.delete()
-                    vote_target.user.userqaprofile.points += -1 if upvote else 1
-                    if upvote:
-                        vote_target.positive_votes -= 1
-
-                    else:
-                        vote_target.negative_votes -= 1
-
-                else:
-                    vote_target.user.userqaprofile.points += 2 if upvote else -2
-                    vote.value = upvote
-                    vote.save()
-                    if upvote:
-                        vote_target.positive_votes += 1
-                        vote_target.negative_votes -= 1
-
-                    else:
-                        vote_target.negative_votes += 1
-                        vote_target.positive_votes -= 1
-
-            vote_target.user.userqaprofile.save()
-            if self.model == Question:
-                vote_target.reward = question_score(vote_target)
-
-            if self.model == Answer:
-                vote_target.question.reward = question_score(
-                    vote_target.question)
-                vote_target.question.save()
-
-            vote_target.save()
-        if next_url is not '':
-            url = next_url;
-
-        else:
-            url = reverse('qa_index')
+                    vote_target.positive_votes -= 1
+        vote_target.user.userqaprofile.save()
+        span = vote_target.positive_votes
+        if self.model == Question:
+            vote_target.reward = question_score(vote_target)
+        if self.model == Answer:
+            vote_target.question.reward = question_score(vote_target.question)
+            vote_target.question.save()
+        vote_target.save()
         ret = {
-            'msg': msg,
-            'url': url
+            'msg': span
         }
-        return JsonResponse(ret)
+        return HttpResponse(json.dumps(ret), content_type='application/json')
 
     def dispatch(self, request, *args, **kwargs):
         if request.method.lower() in self.http_method_names:
