@@ -509,7 +509,6 @@ class AnswerVoteView(ParentVoteView):
     model = Answer
     vote_model = AnswerVote
 
-
 class QuestionVoteView(ParentVoteView):
     """
         投票表决问题
